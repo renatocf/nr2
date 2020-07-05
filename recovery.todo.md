@@ -1,0 +1,16 @@
+- [X] classes
+- [ ] database_versions
+- [X] databases
+- [ ] databases_have_database_versions
+- [X] families
+- [X] nrdr_versions
+- [ ] nrdr_versions_have_databases
+- [X] organisms (file .new.csv)
+- [X] organisms_have_taxa
+- [X] sequences
+- [X] sequences_have_classes (file .new.csv)
+- [X] sequences_have_databases
+- [X] sequences_have_families
+- [X] sequences_have_organisms
+- [X] taxa
+- [X] taxa_have_taxa

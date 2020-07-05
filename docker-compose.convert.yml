@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  pgloader:
+    image: 'dimitri/pgloader'
+
+  mysql:
+    image: 'mariabd:10.3'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD=mypassword
+      MYSQL_USER=refrna
+      MYSQL_PASSWORD=mypassword
+      MYSQL_DATABASE=refrna
+    volumes:
+      - './initdb:/docker-entrypoint-initdb.d'
+    restart: always
+
+  postgres:
+    image: 'postgres:10'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER=refrna
+      POSTGRES_PASSWORD=mypassword
+      POSTGRES_DB=refrna
+    volumes:
+      - './initmysql:/docker-entrypoint-initdb.d'
+    restart: always

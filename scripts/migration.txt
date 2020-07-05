@@ -1,0 +1,145 @@
+$ docker-compose run pgloader pgloader --verbose mysql://refrna:mypassword@mysql:3306/refrna postgres://refrna:mypassword@postgres:5432/refrna
+2017-05-30T00:37:39.025000Z NOTICE Starting pgloader, log system is ready.
+2017-05-30T00:37:39.040000Z LOG Main logs in '/tmp/pgloader/pgloader.log'
+2017-05-30T00:37:39.044000Z LOG Data errors in '/tmp/pgloader/'
+2017-05-30T00:37:39.846000Z NOTICE DROP then CREATE TABLES
+2017-05-30T00:37:39.846000Z NOTICE DROP TABLE IF EXISTS classes CASCADE;
+2017-05-30T00:37:39.847000Z WARNING PostgreSQL warning: table "classes" does not exist, skipping
+2017-05-30T00:37:39.847000Z NOTICE CREATE TABLE classes 
+(
+  idclasses    bigint not null,
+  class        varchar(45) not null,
+  fullname     varchar(100),
+  description  text
+);
+2017-05-30T00:37:40.047000Z NOTICE DROP TABLE IF EXISTS databases CASCADE;
+2017-05-30T00:37:40.047000Z WARNING PostgreSQL warning: table "databases" does not exist, skipping
+2017-05-30T00:37:40.047000Z NOTICE CREATE TABLE databases 
+(
+  iddatabases  bigint not null,
+  database     varchar(45) not null
+);
+2017-05-30T00:37:40.047000Z NOTICE DROP TABLE IF EXISTS families CASCADE;
+2017-05-30T00:37:40.047000Z WARNING PostgreSQL warning: table "families" does not exist, skipping
+2017-05-30T00:37:40.047000Z NOTICE CREATE TABLE families 
+(
+  idfamilies  bigint not null,
+  name        varchar(45),
+  fullname    varchar(200),
+  url         varchar(100)
+);
+2017-05-30T00:37:40.047000Z NOTICE DROP TABLE IF EXISTS organisms CASCADE;
+2017-05-30T00:37:40.048000Z WARNING PostgreSQL warning: table "organisms" does not exist, skipping
+2017-05-30T00:37:40.048000Z NOTICE CREATE TABLE organisms 
+(
+  idorganisms  bigint not null,
+  organisms    varchar(100) not null,
+  taxonomy     text not null
+);
+2017-05-30T00:37:40.048000Z NOTICE DROP TABLE IF EXISTS sequences CASCADE;
+2017-05-30T00:37:40.048000Z WARNING PostgreSQL warning: table "sequences" does not exist, skipping
+2017-05-30T00:37:40.048000Z NOTICE CREATE TABLE sequences 
+(
+  idsequences      bigint not null,
+  length           bigint not null,
+  numsequences     bigint,
+  numunclassified  bigint,
+  sequence         text not null
+);
+2017-05-30T00:37:40.048000Z NOTICE DROP TABLE IF EXISTS sequences_has_classes CASCADE;
+2017-05-30T00:37:40.048000Z WARNING PostgreSQL warning: table "sequences_has_classes" does not exist, skipping
+2017-05-30T00:37:40.048000Z NOTICE CREATE TABLE sequences_has_classes 
+(
+  sequences_idsequences  bigint not null,
+  classes_idclasses      bigint not null
+);
+2017-05-30T00:37:40.048000Z NOTICE DROP TABLE IF EXISTS sequences_has_databases CASCADE;
+2017-05-30T00:37:40.048000Z WARNING PostgreSQL warning: table "sequences_has_databases" does not exist, skipping
+2017-05-30T00:37:40.048000Z NOTICE CREATE TABLE sequences_has_databases 
+(
+  sequences_idsequences  bigint not null,
+  databases_iddatabases  bigint not null
+);
+2017-05-30T00:37:40.048000Z NOTICE DROP TABLE IF EXISTS sequences_has_families CASCADE;
+2017-05-30T00:37:40.048000Z WARNING PostgreSQL warning: table "sequences_has_families" does not exist, skipping
+2017-05-30T00:37:40.048000Z NOTICE CREATE TABLE sequences_has_families 
+(
+  sequences_idsequences  bigint not null,
+  families_idfamilies    bigint not null
+);
+2017-05-30T00:37:40.048000Z NOTICE DROP TABLE IF EXISTS sequences_has_organisms CASCADE;
+2017-05-30T00:37:40.048000Z WARNING PostgreSQL warning: table "sequences_has_organisms" does not exist, skipping
+2017-05-30T00:37:40.048000Z NOTICE CREATE TABLE sequences_has_organisms 
+(
+  sequences_idsequences  bigint not null,
+  organisms_idorganisms  bigint not null
+);
+2017-05-30T00:37:40.056000Z NOTICE CREATE UNIQUE INDEX idx_16386_primary ON classes (idclasses);
+2017-05-30T00:37:40.256000Z NOTICE CREATE UNIQUE INDEX idx_16392_primary ON databases (iddatabases);
+2017-05-30T00:37:40.257000Z NOTICE CREATE UNIQUE INDEX idx_16395_primary ON families (idfamilies);
+2017-05-30T00:37:45.404000Z NOTICE CREATE UNIQUE INDEX idx_16398_primary ON organisms (idorganisms);
+2017-05-30T00:38:57.514000Z NOTICE CREATE UNIQUE INDEX idx_16404_primary ON sequences (idsequences);
+2017-05-30T00:39:27.967000Z NOTICE CREATE UNIQUE INDEX idx_16410_primary ON sequences_has_classes (sequences_idsequences, classes_idclasses);
+2017-05-30T00:39:27.967000Z NOTICE CREATE INDEX idx_16410_fk_sequences_has_classes_sequences1_idx ON sequences_has_classes (sequences_idsequences);
+2017-05-30T00:39:27.967000Z NOTICE CREATE INDEX idx_16410_fk_sequences_has_classes_classes1_idx ON sequences_has_classes (classes_idclasses);
+2017-05-30T00:39:47.631000Z NOTICE CREATE INDEX idx_16413_fk_sequences_has_databases_databases1_idx ON sequences_has_databases (databases_iddatabases);
+2017-05-30T00:39:47.631000Z NOTICE CREATE UNIQUE INDEX idx_16413_primary ON sequences_has_databases (sequences_idsequences, databases_iddatabases);
+2017-05-30T00:39:47.631000Z NOTICE CREATE INDEX idx_16413_fk_sequences_has_databases_sequences1_idx ON sequences_has_databases (sequences_idsequences);
+2017-05-30T00:40:04.541000Z NOTICE CREATE UNIQUE INDEX idx_16416_primary ON sequences_has_families (sequences_idsequences, families_idfamilies);
+2017-05-30T00:40:04.541000Z NOTICE CREATE INDEX idx_16416_fk_sequences_has_families_sequences1_idx ON sequences_has_families (sequences_idsequences);
+2017-05-30T00:40:04.542000Z NOTICE CREATE INDEX idx_16416_fk_sequences_has_families_families1_idx ON sequences_has_families (families_idfamilies);
+2017-05-30T00:40:33.632000Z NOTICE CREATE UNIQUE INDEX idx_16419_primary ON sequences_has_organisms (sequences_idsequences, organisms_idorganisms);
+2017-05-30T00:40:33.632000Z NOTICE CREATE INDEX idx_16419_fk_sequences_has_organisms_organisms1_idx ON sequences_has_organisms (organisms_idorganisms);
+2017-05-30T00:40:33.632000Z NOTICE CREATE INDEX idx_16419_fk_sequences_has_organisms_sequences_idx ON sequences_has_organisms (sequences_idsequences);
+2017-05-30T00:40:38.033000Z NOTICE Reset sequences
+2017-05-30T00:40:40.035000Z NOTICE ALTER TABLE classes ADD PRIMARY KEY USING INDEX idx_16386_primary;
+2017-05-30T00:40:40.035000Z NOTICE ALTER TABLE classes ADD PRIMARY KEY USING INDEX idx_16386_primary;
+2017-05-30T00:40:40.235000Z NOTICE ALTER TABLE databases ADD PRIMARY KEY USING INDEX idx_16392_primary;
+2017-05-30T00:40:40.235000Z NOTICE ALTER TABLE databases ADD PRIMARY KEY USING INDEX idx_16392_primary;
+2017-05-30T00:40:40.235000Z NOTICE ALTER TABLE families ADD PRIMARY KEY USING INDEX idx_16395_primary;
+2017-05-30T00:40:40.235000Z NOTICE ALTER TABLE families ADD PRIMARY KEY USING INDEX idx_16395_primary;
+2017-05-30T00:40:40.236000Z NOTICE ALTER TABLE organisms ADD PRIMARY KEY USING INDEX idx_16398_primary;
+2017-05-30T00:40:40.236000Z NOTICE ALTER TABLE organisms ADD PRIMARY KEY USING INDEX idx_16398_primary;
+2017-05-30T00:40:40.236000Z NOTICE ALTER TABLE sequences ADD PRIMARY KEY USING INDEX idx_16404_primary;
+2017-05-30T00:40:40.236000Z NOTICE ALTER TABLE sequences ADD PRIMARY KEY USING INDEX idx_16404_primary;
+2017-05-30T00:40:41.236000Z NOTICE ALTER TABLE sequences_has_classes ADD PRIMARY KEY USING INDEX idx_16410_primary;
+2017-05-30T00:40:41.236000Z NOTICE ALTER TABLE sequences_has_classes ADD PRIMARY KEY USING INDEX idx_16410_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_databases ADD PRIMARY KEY USING INDEX idx_16413_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_databases ADD PRIMARY KEY USING INDEX idx_16413_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_families ADD PRIMARY KEY USING INDEX idx_16416_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_families ADD PRIMARY KEY USING INDEX idx_16416_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_organisms ADD PRIMARY KEY USING INDEX idx_16419_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_organisms ADD PRIMARY KEY USING INDEX idx_16419_primary;
+2017-05-30T00:40:41.237000Z NOTICE ALTER TABLE sequences_has_classes ADD CONSTRAINT fk_sequences_has_classes_classes1 FOREIGN KEY(classes_idclasses) REFERENCES classes(idclasses) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:42.838000Z NOTICE ALTER TABLE sequences_has_classes ADD CONSTRAINT fk_sequences_has_classes_sequences1 FOREIGN KEY(sequences_idsequences) REFERENCES sequences(idsequences) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:46.439000Z NOTICE ALTER TABLE sequences_has_databases ADD CONSTRAINT fk_sequences_has_databases_databases1 FOREIGN KEY(databases_iddatabases) REFERENCES databases(iddatabases) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:48.040000Z NOTICE ALTER TABLE sequences_has_databases ADD CONSTRAINT fk_sequences_has_databases_sequences1 FOREIGN KEY(sequences_idsequences) REFERENCES sequences(idsequences) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:50.641000Z NOTICE ALTER TABLE sequences_has_families ADD CONSTRAINT fk_sequences_has_families_families1 FOREIGN KEY(families_idfamilies) REFERENCES families(idfamilies) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:51.842000Z NOTICE ALTER TABLE sequences_has_families ADD CONSTRAINT fk_sequences_has_families_sequences1 FOREIGN KEY(sequences_idsequences) REFERENCES sequences(idsequences) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:54.043000Z NOTICE ALTER TABLE sequences_has_organisms ADD CONSTRAINT fk_sequences_has_organisms_organisms1 FOREIGN KEY(organisms_idorganisms) REFERENCES organisms(idorganisms) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:55.043000Z NOTICE ALTER TABLE sequences_has_organisms ADD CONSTRAINT fk_sequences_has_organisms_sequences FOREIGN KEY(sequences_idsequences) REFERENCES sequences(idsequences) ON UPDATE NO ACTION ON DELETE NO ACTION
+2017-05-30T00:40:57.444000Z NOTICE Comments
+             table name       read   imported     errors      total time       read      write
+-----------------------  ---------  ---------  ---------  --------------  ---------  ---------
+        fetch meta data         34         34          0          0.238s                     
+           create, drop          0          0          0          0.297s                     
+-----------------------  ---------  ---------  ---------  --------------  ---------  ---------
+                classes         51         51          0          0.025s     0.025s    0.018s
+              databases         31         31          0          0.018s     0.087s    0.017s
+               families       2740       2740          0          0.066s     0.064s    0.066s
+              organisms     112963     112963          0          3.224s     1.841s    3.224s
+              sequences    2681240    2681240          0       1m13.294s    56.392s 1m13.294s
+  sequences_has_classes    2754927    2754927          0         23.075s    33.492s   23.075s
+sequences_has_databases    3109059    3109059          0         22.951s    17.061s   22.951s
+ sequences_has_families    1545948    1545948          0         11.211s    21.566s   11.211s
+sequences_has_organisms    3188777    3188777          0         18.719s    43.820s   18.719s
+-----------------------  ---------  ---------  ---------  --------------  ---------  ---------
+COPY Threads Completion         27         27          0       2m53.450s                     
+         Create Indexes         17         17          0       1m21.609s                     
+ Index Build Completion         17         17          0          4.531s                     
+        Reset Sequences          0          0          0          1.991s                     
+           Primary Keys          9          9          0          1.117s                     
+           Foreign Keys          8         16          0         32.627s                     
+       Install comments          0          0          0          0.000s                     
+-----------------------  ---------  ---------  ---------  --------------  ---------  ---------
+      Total import time   13395736   13395736          0       3m18.449s  2m54.348s 2m32.575s

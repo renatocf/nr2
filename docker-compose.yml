@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: 'postgres:10'
+    ports:
+      - '5432:5432'
+    volumes:
+      # Anything in initdb directory is created in the database
+      # See "How to extend this image" section at https://hub.docker.com/r/_/postgres/
+      - './initdb:/docker-entrypoint-initdb.d'
+      - 'db:/var/lib/postgresql/data'
+    env_file:
+      - '.env'
+
+  api:
+    image: 'postgrest/postgrest:v0.5.0.0'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - 'db'
+    env_file:
+      - '.env'
+
+  docs:
+    image: 'swaggerapi/swagger-ui:3.17.1'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'api'
+    env_file:
+      - '.env'
+
+volumes:
+  db:

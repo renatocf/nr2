@@ -1,0 +1,10 @@
+.:53 {
+    file /example.org
+    proxy . 8.8.8.8:53 {
+      protocol https_google
+    }
+    rewrite ANY HINFO
+    cache
+    errors stdout  # show errors
+    log stdout     # show query logs
+}
